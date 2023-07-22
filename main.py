@@ -1,7 +1,10 @@
 from libro import Libro
 from usuario import Usuario
+from empleado import Empleado
+
 
 lista_de_usuarios=[]
+lista_de_empleados=[]
 lista_de_libros=[]
 def menu_ingreso():
 
@@ -64,6 +67,18 @@ def crear_usuario():
     objUsuario=Usuario(cedula,nombre,apellido1,apellido2,direccion,telefono)
     lista_de_usuarios.append(objUsuario)
     print("Usuario: "+ nombre + " agregado correctamente.")
+
+def crear_empleado():
+    cedula = input('Ingrese el número de cédula: ')
+    nombre = input('Ingrese el primer apellido: ')
+    apellido1 = input('Ingrese el primer apellido: ')
+    apellido2 = input('Ingrese el segundo apellido: ')
+    codigo_empleado = input('Ingrese el código de empleado: ')
+    puesto = input('Ingrese el puesto: ')
+
+    ObjEmpleado=Empleado(cedula,nombre,apellido1,apellido2,codigo_empleado,puesto)
+    lista_de_empleados.append(ObjEmpleado)
+    print('El empleado'+nombre + 'fue agregado correctamente')
 
 
 def anadir_libro():
