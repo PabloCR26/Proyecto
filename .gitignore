@@ -2,3 +2,4 @@
 *.tmp
 /vs
 __pycache__/
+.idea/

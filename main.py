@@ -21,9 +21,6 @@ def menu_ingreso():
                        '\n\t13. Salir del sistema'
                        '\nIngrese la opcion que desea:\n'))
 
-
-
-
         if opcion ==1:
             print('Añadiendo el nuevo libro')
         elif opcion ==2:
@@ -65,6 +62,7 @@ def crear_usuario():
 
     objUsuario=Usuario(cedula,nombre,apellido1,apellido2,direccion,telefono)
     lista_de_usuarios.append(objUsuario)
+    print("Usuario: "+ nombre + " agregado correctamente.")
 
 
 # Press the green button in the gutter to run the script.
