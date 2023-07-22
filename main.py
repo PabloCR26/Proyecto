@@ -1,7 +1,8 @@
+from libro import Libro
 from usuario import Usuario
 
 lista_de_usuarios=[]
-
+lista_de_libros=[]
 def menu_ingreso():
 
     while True:
@@ -63,6 +64,19 @@ def crear_usuario():
     objUsuario=Usuario(cedula,nombre,apellido1,apellido2,direccion,telefono)
     lista_de_usuarios.append(objUsuario)
     print("Usuario: "+ nombre + " agregado correctamente.")
+
+
+def anadir_libro():
+    titulo=input("Ingrese el titulo del libro: ")
+    autor=input("Ingrese el nombre del autor: ")
+    year=input("Ingrese el año de creacion: ")
+    genero=input("Ingrese el genero: ")
+    descripcion=input("Ingrese una breve descripcion del libro: ")
+
+    objLibro=Libro(titulo,autor,year,genero,descripcion)
+    lista_de_libros.append(objLibro)
+    print("El libro"+titulo + "fue agregado correctamente. ")
+
 
 
 # Press the green button in the gutter to run the script.

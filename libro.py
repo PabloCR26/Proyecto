@@ -5,4 +5,3 @@ class Libro:
         self.year=year
         self.genero=genero
         self.descripcion=descripcion
-        
