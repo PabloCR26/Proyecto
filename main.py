@@ -26,18 +26,18 @@ def menu_ingreso():
                        '\nIngrese la opcion que desea:\n'))
 
         if opcion ==1:
-            print('Añadiendo el nuevo libro')
+           anadir_libro()
         elif opcion ==2:
             print('Mostrando la lista de libros')
         elif opcion ==3:
-            print('Buscando el libro por título')
+            buscar_libro_titulo()
         elif opcion ==4:
             crear_usuario()
             print('Usuario inscrito')
         elif opcion ==5:
             print('Empleado instrito')
         elif opcion ==6:
-            print('Libro eliminado')
+            eliminar_libro()
         elif opcion ==7:
             print('Libro reservado')
         elif opcion ==8:
@@ -80,7 +80,6 @@ def crear_empleado():
     lista_de_empleados.append(ObjEmpleado)
     print('El empleado'+nombre + 'fue agregado correctamente')
 
-
 def anadir_libro():
     titulo=input("Ingrese el titulo del libro: ")
     autor=input("Ingrese el nombre del autor: ")
@@ -90,7 +89,35 @@ def anadir_libro():
 
     objLibro=Libro(titulo,autor,year,genero,descripcion)
     lista_de_libros.append(objLibro)
-    print("El libro"+titulo + "fue agregado correctamente. ")
+    print("El libro" + titulo + "fue agregado correctamente. ")
+
+def eliminar_libro():
+    titulo = input("Ingrese el titulo del libro: ")
+    for libro in lista_de_libros:
+        if (libro.titulo == titulo):
+            lista_de_libros.remove(libro)
+            print('El libro ' + titulo + ' ha sido eliminado.')
+
+def buscar_libro_titulo():
+    titulo = input("Ingrese el titulo del libro: ")
+    for libro in lista_de_libros:
+        if (libro.titulo==titulo):
+            print('El titulo '+titulo+' ha sido encontrado.')
+
+def modificar_atributos_libro():
+    titulo = input("Ingrese el titulo del libro: ")
+    autor = input("Ingrese el nombre del autor: ")
+    year = input("Ingrese el año de creacion: ")
+    genero = input("Ingrese el genero: ")
+    descripcion = input("Ingrese una breve descripcion del libro: ")
+
+    for libro in lista_de_libros:
+        if libro.titulo == titulo:
+            if (autor != ""):
+                libro.autor = autor
+            if (year != ""):
+                libro.year = year
+
 
 
 
