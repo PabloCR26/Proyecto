@@ -1,13 +1,16 @@
+import uuid
+
+
+
 class Libro:
+
     def __init__(self,titulo,autor,year,genero,descripcion):
+        self.id= uuid.uuid4()
         self.titulo=titulo
         self.autor=autor
         self.year=year
         self.genero=genero
         self.descripcion=descripcion
-
-    '''def buscar_libro_titulo(self, titulo, lista_libros):'''
-
 
 
 
