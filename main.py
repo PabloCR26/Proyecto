@@ -38,27 +38,31 @@ def menu_ingreso():
         elif opcion ==4:
             buscar_libro("id")
         elif opcion== 5:
-            pass
-        elif opcion ==4:
+            buscar_libro("autor")
+        elif opcion== 6:
+            buscar_libro("year")
+        elif opcion == 7:
+            buscar_libro("genero")
+        elif opcion ==8:
             crear_usuario()
             print('Usuario inscrito')
-        elif opcion ==5:
-            print('Empleado instrito')
-        elif opcion ==6:
-            eliminar_libro()
-        elif opcion ==7:
-            print('Libro reservado')
-        elif opcion ==8:
-            print('Atributos modificados')
         elif opcion ==9:
-            print('Atributos modificados')
+            print('Empleado instrito')
         elif opcion ==10:
-            print('Préstamo realizado')
+            eliminar_libro()
         elif opcion ==11:
-            print('Libro devuelto')
+            print('Libro reservado')
         elif opcion ==12:
+            print('Atributos modificados')
+        elif opcion ==13:
+            print('Atributos modificados')
+        elif opcion ==14:
+            print('Préstamo realizado')
+        elif opcion ==15:
+            print('Libro devuelto')
+        elif opcion ==16:
             print('Informe generado')
-        elif opcion==13:
+        elif opcion==17:
             break
         else:
             print('¡Opción no valida!')
