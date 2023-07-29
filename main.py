@@ -13,24 +13,32 @@ def menu_ingreso():
                        '\n\t1. Añadir nuevo libro'
                        '\n\t2. Ver lista de libros'
                        '\n\t3. Buscar libro por título'
-                       '\n\t4. Inscribir usuario'
-                       '\n\t5. Inscribir empleado'
-                       '\n\t6. Eliminar libros'
-                       '\n\t7. Reservar libro'
-                       '\n\t8. Filtrar libros'
-                       '\n\t9. Modificar atributos del libro'
-                       '\n\t10. Prestamo de libro'
-                       '\n\t11. Devolución de libro'
-                       '\n\t12. Generar informe'
-                       '\n\t13. Salir del sistema'
+                       '\n\t4. Buscar libro por ID'
+                        '\n\t5. Buscar libro por Autor'
+                        '\n\t6. Buscar libro por año'
+                        '\n\t7. Buscar libro por Genero'
+                       '\n\t8. Inscribir usuario'
+                       '\n\t9. Inscribir empleado'
+                       '\n\t10. Eliminar libros'
+                       '\n\t11. Reservar libro'
+                       '\n\t12. Filtrar libros'
+                       '\n\t13. Modificar atributos del libro'
+                       '\n\t14. Prestamo de libro'
+                       '\n\t15. Devolución de libro'
+                       '\n\t16. Generar informe'
+                       '\n\t17. Salir del sistema'
                        '\nIngrese la opcion que desea:\n'))
 
         if opcion ==1:
            anadir_libro()
         elif opcion ==2:
-            print('Mostrando la lista de libros')
+            mostrar_lista_libros()
         elif opcion ==3:
-            buscar_libro_titulo()
+            buscar_libro("titulo")
+        elif opcion ==4:
+            buscar_libro("id")
+        elif opcion== 5:
+            pass
         elif opcion ==4:
             crear_usuario()
             print('Usuario inscrito')
@@ -98,11 +106,13 @@ def eliminar_libro():
             lista_de_libros.remove(libro)
             print('El libro ' + titulo + ' ha sido eliminado.')
 
-def buscar_libro_titulo():
-    titulo = input("Ingrese el titulo del libro: ")
+def buscar_libro(propiedad_buscar):
+
+    valor = input(f"Ingrese el valor de la propiedad {propiedad_buscar} del libro: ")
     for libro in lista_de_libros:
-        if (libro.titulo==titulo):
-            print('El titulo '+titulo+' ha sido encontrado.')
+        if (getattr(libro,propiedad_buscar)==valor):
+            print(" ID: " + str(libro.id) + " \n Titulo: " + libro.titulo + "\n Autor: " + libro.autor
+                  + "\n Genero: " + libro.genero + "\n Descripcion: " + libro.descripcion + "\n Año: " + libro.year)
 
 def modificar_atributos_libro():
     titulo = input("Ingrese el titulo del libro: ")
@@ -117,6 +127,11 @@ def modificar_atributos_libro():
                 libro.autor = autor
             if (year != ""):
                 libro.year = year
+
+def mostrar_lista_libros():
+    for libro in lista_de_libros:
+        print(" ID: "+ str(libro.id) + " \n Titulo: " + libro.titulo+ "\n Autor: "+ libro.autor
+              + "\n Genero: "+ libro.genero + "\n Descripcion: "+ libro.descripcion+ "\n Año: "+ libro.year)
 
 
 
