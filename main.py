@@ -100,11 +100,13 @@ def anadir_libro():
     print("El libro" + titulo + "fue agregado correctamente. ")
 
 def eliminar_libro():
-    titulo = input("Ingrese el titulo del libro: ")
+    id = input("Ingrese el titulo del libro: ")
     for libro in lista_de_libros:
-        if (libro.titulo == titulo):
+        if (libro.id == id):
             lista_de_libros.remove(libro)
-            print('El libro ' + titulo + ' ha sido eliminado.')
+            print('El libro ' + id + ' ha sido eliminado.')
+
+
 
 def buscar_libro(propiedad_buscar):
 
