@@ -47,7 +47,7 @@ def menu_ingreso():
             crear_usuario()
             print('Usuario inscrito')
         elif opcion ==9:
-            print('Empleado instrito')
+            cargar_empleados()
         elif opcion ==10:
             eliminar_libro()
         elif opcion ==11:
@@ -80,17 +80,13 @@ def crear_usuario():
     lista_de_usuarios.append(objUsuario)
     print("Usuario: "+ nombre + " agregado correctamente.")
 
-def crear_empleado():
-    cedula = input('Ingrese el número de cédula: ')
-    nombre = input('Ingrese el primer apellido: ')
-    apellido1 = input('Ingrese el primer apellido: ')
-    apellido2 = input('Ingrese el segundo apellido: ')
-    codigo_empleado = input('Ingrese el código de empleado: ')
-    puesto = input('Ingrese el puesto: ')
-
-    ObjEmpleado=Empleado(cedula,nombre,apellido1,apellido2,codigo_empleado,puesto)
-    lista_de_empleados.append(ObjEmpleado)
-    print('El empleado'+nombre + 'fue agregado correctamente')
+def cargar_empleados():
+    with open('empleados.txt', 'r') as f:
+        for linea in f:
+            datos=linea.split(',')
+            obj_empleado = Empleado(datos[0], datos[2], datos[3], datos[4], datos[1], datos[5])
+            lista_de_empleados.append(obj_empleado)
+            print('El empleado ' + obj_empleado.nombre + ' fue agregado correctamente')
 
 def anadir_libro():
     titulo=input("Ingrese el titulo del libro: ")
