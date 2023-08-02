@@ -97,12 +97,12 @@ def anadir_libro():
 
     objLibro=Libro(titulo,autor,year,genero,descripcion)
     lista_de_libros.append(objLibro)
-    print("El libro" + titulo + "fue agregado correctamente. ")
+    print("El libro " + titulo + " fue agregado correctamente. ")
 
 def eliminar_libro():
-    id = input("Ingrese el titulo del libro: ")
+    id = input("Ingrese el ID del libro: ")
     for libro in lista_de_libros:
-        if (libro.id == id):
+        if (str(libro.id) == id):
             lista_de_libros.remove(libro)
             print('El libro ' + id + ' ha sido eliminado.')
 
@@ -112,7 +112,7 @@ def buscar_libro(propiedad_buscar):
 
     valor = input(f"Ingrese el valor de la propiedad {propiedad_buscar} del libro: ")
     for libro in lista_de_libros:
-        if (getattr(libro,propiedad_buscar)==valor):
+        if (str(getattr(libro,propiedad_buscar))==valor):
             print(" ID: " + str(libro.id) + " \n Titulo: " + libro.titulo + "\n Autor: " + libro.autor
                   + "\n Genero: " + libro.genero + "\n Descripcion: " + libro.descripcion + "\n Año: " + libro.year)
 
