@@ -1,6 +1,12 @@
+import libro
 from libro import Libro
 from usuario import Usuario
 from empleado import Empleado
+import pandas as pd
+import colorama
+from colorama import Fore,Style
+import openpyxl
+from fpdf import FPDF
 
 lista_de_usuarios = []
 lista_de_empleados = []
@@ -61,7 +67,7 @@ def menu_ingreso():
         elif opcion == 15:
             devolucion_libro()
         elif opcion == 16:
-            print('Informe generado')
+            generar_informes()
         elif opcion == 17:
             break
         else:
@@ -170,6 +176,107 @@ def devolucion_libro():
             else:
                 print("Su libro no se encuentra disponible!!")
 
+
+def generar_informes():
+    opcion_informe = int(input("1. Libros disponibles en la biblioteca\n"
+                               "2. Inventario total\n"
+                               "3. Prestamos vigentes\n"
+                               "4. Usuarios registrados\n"
+                               "Ingrese lo que desea generar:\n"))
+    if opcion_informe == 1:
+        libros_disponibles()
+    elif opcion_informe == 2:
+        inventario_total()
+    elif opcion_informe == 3:
+        libros_prestados()
+    elif opcion_informe == 4:
+        usuarios_registrados()
+    else:
+        print("Ingrese una opcion valida!!")
+
+
+def libros_disponibles():
+    libros_disponibles=[]
+    for libro in lista_de_libros:
+        if libro.disponible:
+            libros_disponibles.append(libro)
+    formato_generar(libros_disponibles)
+
+def libros_prestados():
+    libros_prestados=[]
+    for libro in lista_de_libros:
+        if not libro.disponible:
+            libros_prestados.append(libro)
+    formato_generar(libros_prestados)
+
+def inventario_total():
+    formato_generar(lista_de_libros)
+
+def usuarios_registrados():
+    formato_generar(lista_de_usuarios)
+
+
+
+def formato_generar(datos):
+    opcion = int(input('Seleccione e el formato del archivo para guardar:\n'
+                       '1. Archivo de texto\n'
+                       '2. Archivo PDF \n'
+                       '3. Archivo de Excel \n'
+                       'Ingrese su opcion:'))
+
+    if opcion == 1:
+        generar_txt(datos)
+    elif opcion == 2:
+        generar_pdf(datos)
+    elif opcion == 3:
+        generar_excel(datos)
+    else:
+        print("Ingrese una opcion valida!!")
+
+def generar_txt(datos_guardar):
+    nombre_archivo = input('Ingrese el nombre del archivo:')
+    with open(nombre_archivo + '.txt', 'w') as f:
+        for linea in datos_guardar:
+            f.write(linea.__str__())
+        print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
+def generar_pdf(datos_guardar):
+    nombre_archivo = input('Ingrese el nombre del archivo: ')
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', size=12)
+    for nombre in datos_guardar:
+        pdf.cell(0, 5, txt=nombre, ln=True)
+    pdf.output(nombre_archivo + '.pdf')
+    print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
+
+def generar_excel(datos_guardar):
+    nombre_archivo = input("Ingrese el nombre del archivo")
+    libro = openpyxl.Workbook()
+    hoja = libro.active
+
+    for i, nombre in enumerate(datos_guardar, start=1):
+        hoja.cell(row=i, column=1, value=nombre)
+    libro.save(nombre_archivo + ".xlsx")
+    print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
+
+
+
+
+
+
+"""
+    nombre_archivo = f"peliculas_{titulo.lower()}.pdf"
+    c = canvas.Canvas(nombre_archivo, pagesize=letter)
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 750, f"Películas encontradas con el género '{titulo}':")
+    c.setFont("Helvetica", 12)
+    y = 720
+    for pelicula in p_lista:
+        c.drawString(100, y, f"Código: {pelicula['codigo']}, Nombre: {pelicula['nombre']}")
+        y -= 20
+    c.save()
+    print(f"Resultados guardados en el archivo  '{nombre_archivo}'.\n")
+"""
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

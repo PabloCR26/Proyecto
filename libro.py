@@ -15,10 +15,13 @@ class Libro:
         self.inicio_prestamo = ""
         self.fin_prestamo = ""
 
+    def __str__(self):
+        return f'{self.id},{self.titulo}, {self.autor}, {self.year}, {self.genero}, {self.descripcion}'
+
     def prestar(self, fecha_inicio, fecha_fin):
         self.disponible = False
         self.inicio_prestamo = fecha_inicio
-        self.fin_prestamo = fecha_fin
+        self.fin_prestamo = fecha_fin          
 
     def devolver(self):
         self.disponible = True
