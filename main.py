@@ -244,8 +244,8 @@ def generar_pdf(datos_guardar):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font('Arial', size=12)
-    for nombre in datos_guardar:
-        pdf.cell(0, 5, txt=nombre, ln=True)
+    for nombre in (datos_guardar):
+        pdf.cell(0, 5, txt=nombre.__str__(), ln=True)
     pdf.output(nombre_archivo + '.pdf')
     print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
 
@@ -255,28 +255,9 @@ def generar_excel(datos_guardar):
     hoja = libro.active
 
     for i, nombre in enumerate(datos_guardar, start=1):
-        hoja.cell(row=i, column=1, value=nombre)
+        hoja.cell(row=i, column=1, value=nombre.__str__())
     libro.save(nombre_archivo + ".xlsx")
     print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
-
-
-
-
-
-
-"""
-    nombre_archivo = f"peliculas_{titulo.lower()}.pdf"
-    c = canvas.Canvas(nombre_archivo, pagesize=letter)
-    c.setFont("Helvetica-Bold", 14)
-    c.drawString(100, 750, f"Películas encontradas con el género '{titulo}':")
-    c.setFont("Helvetica", 12)
-    y = 720
-    for pelicula in p_lista:
-        c.drawString(100, y, f"Código: {pelicula['codigo']}, Nombre: {pelicula['nombre']}")
-        y -= 20
-    c.save()
-    print(f"Resultados guardados en el archivo  '{nombre_archivo}'.\n")
-"""
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
