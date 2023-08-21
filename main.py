@@ -2,15 +2,14 @@ import libro
 from libro import Libro
 from usuario import Usuario
 from empleado import Empleado
-import pandas as pd
-import colorama
-from colorama import Fore,Style
+from colorama import Fore
 import openpyxl
 from fpdf import FPDF
 
 lista_de_usuarios = []
 lista_de_empleados = []
 lista_de_libros = []
+libros_prestados =dict()
 
 
 def menu_ingreso():
@@ -51,15 +50,14 @@ def menu_ingreso():
             buscar_libro("genero")
         elif opcion == 8:
             crear_usuario()
-            print('Usuario inscrito')
-        elif opcion == 9:
+        elif opcion == 9 :
             cargar_empleados()
         elif opcion == 10:
             eliminar_libro()
         elif opcion == 11:
-            print('Libro reservado')
+            reservar()
         elif opcion == 12:
-            print('Atributos modificados')
+            filtrar_libros_genero()
         elif opcion == 13:
             modificar_atributos_libro()
         elif opcion == 14:
@@ -124,6 +122,13 @@ def buscar_libro(propiedad_buscar):
             print(" ID: " + str(libro.id) + " \n Titulo: " + libro.titulo + "\n Autor: " + libro.autor
                   + "\n Genero: " + libro.genero + "\n Descripcion: " + libro.descripcion + "\n Año: " + libro.year)
 
+def filtrar_libros_genero():
+    valor = input('Ingrese el género del libro a filtrar: ')
+    libros_filtrados = list(filter(lambda libro: libro.genero == valor,lista_de_libros))
+    print('Los libros que coinciden son: ')
+    for libros in libros_filtrados:
+        print(libros.titulo)
+
 
 def modificar_atributos_libro():
     id = input("Ingrese el ID del libro: ")
@@ -156,15 +161,36 @@ def mostrar_lista_libros():
 
 def prestamo_libro():
     id = input("Ingrese el ID del libro que desea solicitar: ")
+    cedula = input("Ingrese la cédula del usuario: ")
     fecha_prestamo = input("Ingrese fecha de inicio de prestamo del libro: ")
     fecha_devolucion = input("Ingrese fecha de devolucion del libro: ")
     for libro in lista_de_libros:
         if str(libro.id) == id:
             if libro.disponible:
                 libro.prestar(fecha_prestamo, fecha_devolucion)
+                datos = libros_prestados.get(cedula)
+                libros_usuarios = datos["libros"]
+                if (libros_usuarios):
+                    libros_usuarios.append(libro)
+                    libros_prestados.update(cedula, { "¨libros":libros_prestados})
+                else:
+                    libros_prestados[cedula] = {"¨libros": [libro]}
+                print("Dic: ", libros_prestados.items())
                 print("Su libro ha sido prestado correctamente")
             else:
                 print("Su libro no se encuentra disponible!!")
+
+def reservar():
+    id = input("Ingrese el ID del libro que desea reservar : ")
+    fecha_inicio = input('Ingrese la fecha de inicio de la reserva: ')
+    fecha_final = input('Ingrese la fecha de fin de la reserva: ')
+    for libro in lista_de_libros:
+        if str(libro.id) == id:
+            if not libro.reservado:
+                libro.reservar(fecha_inicio, fecha_final)
+                print('Su libro se ha reservado correctamente. ')
+            else:
+                print("Su libro no se encuentra disponible!")
 
 
 def devolucion_libro():

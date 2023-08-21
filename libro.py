@@ -23,6 +23,11 @@ class Libro:
         self.inicio_prestamo = fecha_inicio
         self.fin_prestamo = fecha_fin          
 
+    def reservar(self, fecha_inicio, fecha_fin):
+        self.reservado = True
+        self.inicio_prestamo = fecha_inicio
+        self.fin_prestamo = fecha_fin
+
     def devolver(self):
         self.disponible = True
         self.inicio_prestamo = ""
