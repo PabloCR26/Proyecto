@@ -9,29 +9,25 @@ from fpdf import FPDF
 lista_de_usuarios = []
 lista_de_empleados = []
 lista_de_libros = []
-libros_prestados =dict()
+dict_libros = {}
 
 
 def menu_ingreso():
     while True:
-        opcion = int(input(' Menu\n----------\t' +
+        opcion = int(input(' \n\t----------MENU--------------\n' +
                            '\n\t1. Añadir nuevo libro'
                            '\n\t2. Ver lista de libros'
-                           '\n\t3. Buscar libro por título'
-                           '\n\t4. Buscar libro por ID'
-                           '\n\t5. Buscar libro por Autor'
-                           '\n\t6. Buscar libro por año'
-                           '\n\t7. Buscar libro por Genero'
-                           '\n\t8. Inscribir usuario'
-                           '\n\t9. Inscribir empleado'
-                           '\n\t10. Eliminar libros'
-                           '\n\t11. Reservar libro'
-                           '\n\t12. Filtrar libros'
-                           '\n\t13. Modificar atributos del libro'
-                           '\n\t14. Prestamo de libro'
-                           '\n\t15. Devolución de libro'
-                           '\n\t16. Generar informe'
-                           '\n\t17. Salir del sistema'
+                           '\n\t3. Buscar libro '
+                           '\n\t4. Inscribir usuario'
+                           '\n\t5. Inscribir empleado'
+                           '\n\t6. Eliminar libros'
+                           '\n\t7. Reservar libro'
+                           '\n\t8. Filtrar libros'
+                           '\n\t9. Modificar atributos del libro'
+                           '\n\t10. Prestamo de libro'
+                           '\n\t11. Devolver libro'
+                           '\n\t12. Generar informe'
+                           '\n\t13. Salir del sistema'
                            '\nIngrese la opcion que desea:\n'))
 
         if opcion == 1:
@@ -39,34 +35,26 @@ def menu_ingreso():
         elif opcion == 2:
             mostrar_lista_libros()
         elif opcion == 3:
-            buscar_libro("titulo")
+            manejar_busqueda()
         elif opcion == 4:
-            buscar_libro("id")
-        elif opcion == 5:
-            buscar_libro("autor")
-        elif opcion == 6:
-            buscar_libro("year")
-        elif opcion == 7:
-            buscar_libro("genero")
-        elif opcion == 8:
             crear_usuario()
-        elif opcion == 9 :
+        elif opcion == 5:
             cargar_empleados()
-        elif opcion == 10:
+        elif opcion == 6:
             eliminar_libro()
-        elif opcion == 11:
+        elif opcion == 7:
             reservar()
-        elif opcion == 12:
+        elif opcion == 8:
             filtrar_libros_genero()
-        elif opcion == 13:
+        elif opcion == 9:
             modificar_atributos_libro()
-        elif opcion == 14:
+        elif opcion == 10:
             prestamo_libro()
-        elif opcion == 15:
+        elif opcion == 11:
             devolucion_libro()
-        elif opcion == 16:
+        elif opcion == 12:
             generar_informes()
-        elif opcion == 17:
+        elif opcion == 13:
             break
         else:
             print('¡Opción no valida!')
@@ -122,9 +110,32 @@ def buscar_libro(propiedad_buscar):
             print(" ID: " + str(libro.id) + " \n Titulo: " + libro.titulo + "\n Autor: " + libro.autor
                   + "\n Genero: " + libro.genero + "\n Descripcion: " + libro.descripcion + "\n Año: " + libro.year)
 
+
+def manejar_busqueda():
+    opcion = int(input('\t----------MENU--------------\n'
+                       '\n\t1. Buscar libro por título'
+                       '\n\t2. Buscar libro por ID'
+                       '\n\t3. Buscar libro por Autor'
+                       '\n\t4. Buscar libro por año'
+                       '\n\t5. Buscar libro por Genero'
+                       '\nIngrese la opcion que desea:\n'))
+    if opcion == 1:
+        buscar_libro("titulo")
+    elif opcion == 2:
+        buscar_libro("id")
+    elif opcion == 3:
+        buscar_libro("autor")
+    elif opcion == 4:
+        buscar_libro("year")
+    elif opcion == 5:
+        buscar_libro("genero")
+    else:
+        print("Ingrese una opcion valida!!")
+
+
 def filtrar_libros_genero():
     valor = input('Ingrese el género del libro a filtrar: ')
-    libros_filtrados = list(filter(lambda libro: libro.genero == valor,lista_de_libros))
+    libros_filtrados = list(filter(lambda libro: libro.genero == valor, lista_de_libros))
     print('Los libros que coinciden son: ')
     for libros in libros_filtrados:
         print(libros.titulo)
@@ -168,17 +179,21 @@ def prestamo_libro():
         if str(libro.id) == id:
             if libro.disponible:
                 libro.prestar(fecha_prestamo, fecha_devolucion)
-                datos = libros_prestados.get(cedula)
-                libros_usuarios = datos["libros"]
-                if (libros_usuarios):
-                    libros_usuarios.append(libro)
-                    libros_prestados.update(cedula, { "¨libros":libros_prestados})
+                print(type(dict_libros))
+                if (len(dict_libros) > 0):
+                    datos = dict_libros.get(cedula)
+                    print(datos)
+                    libros_usuarios = datos["libros"]
+                    if (libros_usuarios):
+                        libros_usuarios.append(libro)
+                        dict_libros.update({"libros": libros_prestados})
                 else:
-                    libros_prestados[cedula] = {"¨libros": [libro]}
-                print("Dic: ", libros_prestados.items())
+                    dict_libros[cedula] = {"libros": [libro]}
+                print("Dic: ", dict_libros.items())
                 print("Su libro ha sido prestado correctamente")
             else:
                 print("Su libro no se encuentra disponible!!")
+
 
 def reservar():
     id = input("Ingrese el ID del libro que desea reservar : ")
@@ -208,6 +223,7 @@ def generar_informes():
                                "2. Inventario total\n"
                                "3. Prestamos vigentes\n"
                                "4. Usuarios registrados\n"
+                               "5. Pestamos de libros por Usuarios\n"
                                "Ingrese lo que desea generar:\n"))
     if opcion_informe == 1:
         libros_disponibles()
@@ -217,30 +233,49 @@ def generar_informes():
         libros_prestados()
     elif opcion_informe == 4:
         usuarios_registrados()
+    elif opcion_informe == 5:
+        libros_prestados_usuarios()
     else:
         print("Ingrese una opcion valida!!")
 
 
 def libros_disponibles():
-    libros_disponibles=[]
+    libros_disponibles = []
     for libro in lista_de_libros:
         if libro.disponible:
             libros_disponibles.append(libro)
     formato_generar(libros_disponibles)
 
+
 def libros_prestados():
-    libros_prestados=[]
+    libros_prestados = []
     for libro in lista_de_libros:
         if not libro.disponible:
             libros_prestados.append(libro)
     formato_generar(libros_prestados)
 
+
 def inventario_total():
     formato_generar(lista_de_libros)
+
 
 def usuarios_registrados():
     formato_generar(lista_de_usuarios)
 
+
+def libros_prestados_usuarios():
+    cedula = input("Ingrese la cédula del usuario: \n")
+    if (len(dict_libros) > 0):
+        usuario_libros = dict_libros.get(cedula)
+        if (usuario_libros):
+            libros = usuario_libros["libros"]
+            if (len(libros) > 0):
+                temp_datos = []
+                for libro in libros:
+                    temp_datos.append(
+                        [cedula, str(libro.id), libro.titulo, libro.autor, libro.descripcion, libro.inicio_prestamo,
+                         libro.fin_prestamo])
+                formato_generar(temp_datos)
 
 
 def formato_generar(datos):
@@ -259,12 +294,15 @@ def formato_generar(datos):
     else:
         print("Ingrese una opcion valida!!")
 
+
 def generar_txt(datos_guardar):
     nombre_archivo = input('Ingrese el nombre del archivo:')
     with open(nombre_archivo + '.txt', 'w') as f:
         for linea in datos_guardar:
             f.write(linea.__str__())
         print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
+
+
 def generar_pdf(datos_guardar):
     nombre_archivo = input('Ingrese el nombre del archivo: ')
     pdf = FPDF()
@@ -275,6 +313,7 @@ def generar_pdf(datos_guardar):
     pdf.output(nombre_archivo + '.pdf')
     print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
 
+
 def generar_excel(datos_guardar):
     nombre_archivo = input("Ingrese el nombre del archivo")
     libro = openpyxl.Workbook()
@@ -284,6 +323,7 @@ def generar_excel(datos_guardar):
         hoja.cell(row=i, column=1, value=nombre.__str__())
     libro.save(nombre_archivo + ".xlsx")
     print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
