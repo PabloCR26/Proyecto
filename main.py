@@ -6,12 +6,13 @@ from colorama import Fore
 import openpyxl
 from fpdf import FPDF
 
+#LISTAS Y DICCIONARIO PARA LOS DATOS DE PRESTAMO POR USUARIO
 lista_de_usuarios = []
 lista_de_empleados = []
 lista_de_libros = []
 dict_libros = {}
 
-
+#MENU PRINCIPAL
 def menu_ingreso():
     while True:
         opcion = int(input(' \n\t----------MENU--------------\n' +
@@ -60,6 +61,8 @@ def menu_ingreso():
             print('¡Opción no valida!')
 
 
+
+#CREA UN OBJETO NUEVO DE LA CLASE USUARIO Y LO MUESTRA
 def crear_usuario():
     cedula = input("Ingrese su numero de cedula: ")
     nombre = input("Ingrese su nombre: ")
@@ -73,6 +76,9 @@ def crear_usuario():
     print("Usuario: " + nombre + " agregado correctamente.")
 
 
+
+#CARGA LOS EMPLEADOS DEL ARCHIVO TXT EN MODO LECTURA
+#USA UN CICLO FOR QUE ITERA A TRAVÉS DE CADA LINEA DEL ARCHIVO
 def cargar_empleados():
     with open('empleados.txt', 'r') as f:
         for linea in f:
@@ -82,6 +88,8 @@ def cargar_empleados():
             print('El empleado ' + obj_empleado.nombre + ' fue agregado correctamente')
 
 
+
+#CREA UN NUEVO OBJETO DE LA CALSE LIBRO CON ID UNICO
 def anadir_libro():
     titulo = input("Ingrese el titulo del libro: ")
     autor = input("Ingrese el nombre del autor: ")
@@ -95,6 +103,8 @@ def anadir_libro():
     print("El libro " + titulo + " con el ID " + str(objLibro.id) + " fue agregado correctamente. ")
 
 
+
+#ELIMINA EL LIBRO, SI EL ID DADO ES IGUAL AL ID DEL LIBRO
 def eliminar_libro():
     id = input("Ingrese el ID del libro: ")
     for libro in lista_de_libros:
@@ -103,6 +113,10 @@ def eliminar_libro():
             print('El libro ' + id + ' ha sido eliminado.')
 
 
+
+#BUSCA EL LBRO DE ACUERDO A LA PROPIEDAD A BUSCAR DEL MISM0
+# #UTILIZA GETATTR PARA ACCEDER A LOS ATRIBUTOS
+#UTILIZA UN BUCLE FOR QUE RECORRE CADA OBJETO LIBRO EN LA LISTA
 def buscar_libro(propiedad_buscar):
     valor = input(f"Ingrese el valor de la propiedad {propiedad_buscar} del libro: ")
     for libro in lista_de_libros:
@@ -111,6 +125,8 @@ def buscar_libro(propiedad_buscar):
                   + "\n Genero: " + libro.genero + "\n Descripcion: " + libro.descripcion + "\n Año: " + libro.year)
 
 
+
+#GESTIONA LA BÚSQUEDA DE LIBROS MEDIANTE LA PROPIEDAD A BUSCAR
 def manejar_busqueda():
     opcion = int(input('\t----------MENU--------------\n'
                        '\n\t1. Buscar libro por título'
@@ -133,6 +149,10 @@ def manejar_busqueda():
         print("Ingrese una opcion valida!!")
 
 
+
+#SE USA LA FUNCIÓN FILTER PARA FILTRAR LA LISTA POR EL GÉNERO ESPECIFICADO
+#LA FUNCIÓN LAMBDA VERIFICA EL GÉNERO DEL LIBRO COINCIDE CON EL VALOR INGRESADO
+#SE USA LA FUNCIÓN LIST() SE USA PARA CONVERTIR EL RESULTADO EN UNA LISTA
 def filtrar_libros_genero():
     valor = input('Ingrese el género del libro a filtrar: ')
     libros_filtrados = list(filter(lambda libro: libro.genero == valor, lista_de_libros))
@@ -141,6 +161,11 @@ def filtrar_libros_genero():
         print(libros.titulo)
 
 
+
+#SE USA UN BUCLE FOR QUE RECORRE CADA LIBRO EN LA LISTA DE LIBROS
+#SE COMPRUEBA SI EL ID INGRESADO ES CORRECTO, Y SE PROCEDE CON LA MODIFICACIÓN
+#LOS IF COMPRUEBAN SI SE INGRESARON NUEVOS VALORES ARA LOS ATRIBUTOS
+#SI SE AÑADE UN VALOR DIFERENTE A VACÍO, SE ACTUALIZA EL ATRIBUTO
 def modificar_atributos_libro():
     id = input("Ingrese el ID del libro: ")
     titulo = input("Ingrese el titulo del libro: ")
@@ -164,12 +189,22 @@ def modificar_atributos_libro():
             print(" Los atributos han sido modificados!!! ")
 
 
+
+#SE USA UN FOR QUE RECORRE CADA LIBRO EN LA LISTA DE LIBROS
+#SE IMPRIMEN LOS DETALLES DE CADA LIBRO LÍNEA POR LÍNEA
 def mostrar_lista_libros():
     for libro in lista_de_libros:
         print(" ID: " + str(libro.id) + " \n Titulo: " + libro.titulo + "\n Autor: " + libro.autor
               + "\n Genero: " + libro.genero + "\n Descripcion: " + libro.descripcion + "\n Año: " + libro.year)
 
 
+
+#SE VERIFICA SI EL ID INGRESADO COINCIDE CON EL DEL LIBRO
+#SE VERIFICA SI EL LIBRO ESTÁ DISPONIBLE PARA PRÉSTAMO
+#SE LLAMA AL MÉTODO PRESTAR DEL OBJETO LIBRO PARA MARCARLO COMO PRESTADO Y ESTABLECER FECHAS
+#EL if cedula in dict libros VERIFICA SI EL USUARIO YA TIENE LIBROS PRESTADOS EN dict_libros
+#SI EL USUARIO TIENE LIBROS PRESTADOS SE AÑADE A SU LISTA DE LIBROS PRESTADOS EN EL DICCIONARIO
+#SI NO TIENE LIBROS PRESTADOS, SE CREA UNA NUEVA ENTRADA EN EL dict_libros CON LA CÉDULA Y LA LISTA CON EL LIBRO
 def prestamo_libro():
     id = input("Ingrese el ID del libro que desea solicitar: ")
     cedula = input("Ingrese la cédula del usuario: ")
@@ -195,6 +230,12 @@ def prestamo_libro():
                 print("Su libro no se encuentra disponible!!")
 
 
+
+#SE PIDE EL ID DEL LIBRO A RESERVAR Y LAS FECHAS
+#SE RECORRE LA LISTA DE LIBROS Y SE COMPRUEBA SI EL ID COINCIDE
+#if not libro.reservado VERIFICA SI EL LIBRO NO ESTÁ RESERVADO
+#libro.reservar() LLAMA AL METODO RESERVAR PARA MARCARLO COMO RESERVADO
+#SI ES LIBRO NO ESTÁ DISPONIBLE SE IMPRIME EN LA CONSOLA
 def reservar():
     id = input("Ingrese el ID del libro que desea reservar : ")
     fecha_inicio = input('Ingrese la fecha de inicio de la reserva: ')
@@ -208,6 +249,11 @@ def reservar():
                 print("Su libro no se encuentra disponible!")
 
 
+
+#SE USA UN FOR PARA RECORRER CADA LIBRO EN LA LISTA DE LIBROS
+#SE VERIFICA SI EL ID COINCIDE
+#SE VERIFICA SI EL LIBRO NO ESTÁ DISPONIBLE (ESTÁ PRESTADO)
+#libro.devolver() LLAMA AL METODO devolver() DE LA CLASE LIBRO PARA MARCARLO COMO DISPONIBLE
 def devolucion_libro():
     id = input("Ingrese el ID del libro que desea devolver : ")
     for libro in lista_de_libros:
@@ -218,6 +264,9 @@ def devolucion_libro():
                 print("Su libro no se encuentra disponible!!")
 
 
+
+#opcion_informe() SOLICITA LA OPCION DE INFORME A GENERAR EN EL MENU
+#SE LLAMAN A LAS FUNCIONES PROPIAS DE GENERACIÓN DE INFORMES
 def generar_informes():
     opcion_informe = int(input("1. Libros disponibles en la biblioteca\n"
                                "2. Inventario total\n"
@@ -239,6 +288,10 @@ def generar_informes():
         print("Ingrese una opcion valida!!")
 
 
+
+#CREA UNA LISTA VACIA DONDE SE ALMACENARAN LOS LIBROS DISPONIBLES
+#SE VERIFICA SI EL LIBRO ESTÁ DISPONIBLE CON LOS BUCLES Y SE AGREGA A LA LISTA
+#SE LLAMA A LA FUNCION formato_generar CON LA LISTA COMO ARGUMENTO
 def libros_disponibles():
     libros_disponibles = []
     for libro in lista_de_libros:
@@ -247,6 +300,11 @@ def libros_disponibles():
     formato_generar(libros_disponibles)
 
 
+
+#SE ALMACENAN LOS LIBROS PRESTADOS EN UNA LISTA
+#SE VERIFICA SI EL LIBRO NO ESTÁ DISPONIBLE (ESTÁ PRESTADO)
+#SI EL LIBRO ESTÁ PRESTADO, SE AGREGA A LA LISTA
+#SE LLAMA A formato_generar Y SE PASA LA LISTA COMO ARGUMENTO PARA GENERAR EL INFORME
 def libros_prestados():
     libros_prestados = []
     for libro in lista_de_libros:
@@ -255,14 +313,26 @@ def libros_prestados():
     formato_generar(libros_prestados)
 
 
+
+#SE GENERA EL INFORME EN BASE A LA LISTA TOTAL DE LIBROS
 def inventario_total():
     formato_generar(lista_de_libros)
 
 
+
+#SE GENERA EL INFORME EN BASE A LA LISTA DE USUARIOS
 def usuarios_registrados():
     formato_generar(lista_de_usuarios)
 
 
+#SOLICITA LA CEDULA DE QUIEN SE DESEA GENERAR EL INFORME
+# SE VERIFICA SI EL dict_libros CONTIENE DATOS
+#usuario_libros = dict_libros.get(cedula) +
+# OBTIENE LOS DATOS DEL USUARIO DEL DICCIONARIO CON LA CEDULA COMO CLAVE
+#SE VERIFICA SI SE ENCONTRARON DATOS PARA EL USUARIO
+#SE OBTIENE LA LISTA DE LIBROS PRESTADOS POR EL USUARIO
+#SE VERIFICA SI TIENE LIBROS PRESTADOS
+#SE CREA UNA LISTA temp_datos PARA ALMACENAR LOS LIBROS PRESTADOS POR EL USUARIO
 def libros_prestados_usuarios():
     cedula = input("Ingrese la cédula del usuario: \n")
     if (len(dict_libros) > 0):
@@ -278,6 +348,8 @@ def libros_prestados_usuarios():
                 formato_generar(temp_datos)
 
 
+
+#FUNCION PARA GENERAR EL FORMATO DESEADO AL INFORME
 def formato_generar(datos):
     opcion = int(input('Seleccione e el formato del archivo para guardar:\n'
                        '1. Archivo de texto\n'
@@ -295,6 +367,7 @@ def formato_generar(datos):
         print("Ingrese una opcion valida!!")
 
 
+#ABRE EL ARCHIVO CON EL NOMBRE DADO Y LA EXTENSION TXT EN MODO ESCRITURA
 def generar_txt(datos_guardar):
     nombre_archivo = input('Ingrese el nombre del archivo:')
     with open(nombre_archivo + '.txt', 'w') as f:
@@ -303,6 +376,8 @@ def generar_txt(datos_guardar):
         print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
 
 
+
+#SE CREA UNA INSTANCIA DE LA CLASE FPDF PARA TRABAJAR CON EL ARCHIVO
 def generar_pdf(datos_guardar):
     nombre_archivo = input('Ingrese el nombre del archivo: ')
     pdf = FPDF()
@@ -314,6 +389,8 @@ def generar_pdf(datos_guardar):
     print(Fore.RED + 'El archivo se guardó correctamente' + Fore.RESET)
 
 
+#CREA UNA INSTANCIA DE LA CLASE WORKBOOK PARA TRABAJAR CON EXCEL
+#for i, nombre in enumerate... RECORRE CADA CONJUNTO DE DATOS, MIENTRAS i RASTREA EL NUMERO DE FILA
 def generar_excel(datos_guardar):
     nombre_archivo = input("Ingrese el nombre del archivo")
     libro = openpyxl.Workbook()

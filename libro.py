@@ -1,6 +1,4 @@
 import uuid
-
-
 class Libro:
 
     def __init__(self, titulo, autor, year, genero, descripcion):
